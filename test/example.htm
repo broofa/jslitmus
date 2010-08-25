@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+  Include the bit.ly URL shortening API.  jslitmus doesn't depend on this;
+  we just use it in this example to show how to shorten the (often very long)
+  URL that jslitmus.getGoogleChart() returns.
+
+  (BTW, please do not use the bit.ly login and apiKey here for URLs that aren't
+  jslitmus-related.  It's easy to get your own for free at http://bit.ly)
+  -->
+  <script src="http://bit.ly/javascript-api.js?version=latest&login=jslitmus&apiKey=R_5fda658554f6c3c38a25b8406f8a9106"></script>
+
+  <!-- Include Firebug Lite console to do x-platform logging -->
+  <script type="text/javascript" src="https://getfirebug.com/firebug-lite-beta.js">{startOpened: true}</script>
+
+  <!-- Get jslitmus magic -->
+  <script src="../jslitmus.js"></script>
+
+  <script>
+  // Create static test resources
+  var a100k = new Array(1e5);
+  var a10k = new Array(1e4);
+  var a1k = new Array(1e3);
+
+  // Add the tests
+  jslitmus.test('Join 100K', function() {
+    a100k.join(' ');
+  });
+  jslitmus.test('Join 10K', function() {
+    a10k.join(' ');
+  });
+  jslitmus.test('Join 1K', function() {
+    a1k.join(' ');
+  });
+
+  // 'complete' fires for each test when it finishes.
+  jslitmus.on('complete', function(test) {
+    // Output test results
+    console.log(test + '');
+  });
+
+  // 'all_complete' fires when all tests have finished.
+  jslitmus.on('all_complete', function() {
+    // Get the results image URL
+    var url = jslitmus.getGoogleChart();
+    console.log('Chart url: ' + jslitmus.getGoogleChart());
+    document.getElementById('results').src = url;
+
+    // That url is often obscenely long, so let's get a shortened
+    // version from bit.ly.
+    BitlyCB.onShorten = function(data) {
+      if (data.results) {
+        var shortUrl = data.results[url].shortUrl;
+        // Show the URL
+        console.log('Shortened chart url: ' + shortUrl);
+      } else {
+        // Hmm... not what we were expecting, so just dump whatever we got
+        console.log('Unable to shorten. Server response:');
+        console.dir(data);
+      }
+    };
+    BitlyClient.shorten(url, 'BitlyCB.onShorten');
+  });
+
+  // Run the tests
+  jslitmus.runAll();
+  </script>
+</head>
+
+  <body>
+    <h1>jslitmus demo</h1>
+    Output will appear in the Firebug Lite console, which should appear below shortly.
+    <br />
+    <img id="results" />
+  </body>
+</html>
