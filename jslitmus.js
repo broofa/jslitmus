@@ -118,9 +118,9 @@
   }
 
   // Array: IE doesn't have indexOf in some cases
-  function indexOf(arr, o) {
-    if (arr.indexOf) return arr.indexOf(o);
-    for (var i = 0; i < this.length; i++) if (arr[i] === o) return i;
+  function indexOf(a, o) {
+    if (a.indexOf) return a.indexOf(o);
+    for (var i = 0, l = a.length; i < l; i++) if (a[i] === o) return i;
     return -1;
   }
 
