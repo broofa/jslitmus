@@ -256,7 +256,7 @@
     EventEmitter.call(test);
 
     if (!f) throw new Error('Undefined test function');
-    if (!/function[^\(]*\(([^,\)]*)/.test(f + '')) {
+    if (!/function[^\(]*\(([^,\)]*)/.test(f)) {
       throw new Error('"' + name + '" test: Invalid test function');
     }
 
@@ -437,7 +437,7 @@
       } else {
         return this.name + ', count = '  + humanize(this.count);
       }
-    }
+    };
   };
 
   // Set static properties

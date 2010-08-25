@@ -5,7 +5,7 @@ It is available for use under the MIT opensource license.
 
 ## Examples
 
-The 'test/example.htm' is the canonical example (for now).  It demonstrates how to setup and run tests, how to listen for test results, how to get a graph of result data, and how to provide a shortened-url onto that graph data.
+Better/richer examples are forthcoming.  For now, checkout [test/example.htm](http://github.com/broofa/jslitmus/blob/master/test/example.htm).  It demonstrates how to setup and run tests, how to listen for test results, and how to get a google graph link for the results.  (It even shows how to shorten that URL via bit.ly)
 
 ### In a web page:
 
