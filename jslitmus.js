@@ -124,7 +124,6 @@
     return -1;
   }
 
-
   // Enhanced escape()
   function escape2(s) {
     s = s.replace(/,/g, '\\,');
@@ -233,7 +232,7 @@
         listeners[e] = [];
       },
       emit: function(e) {
-        var args = Array.prototype.splice.call(arguments, 1);
+        var args = Array.prototype.slice.call(arguments, 1);
         forEach([].concat(listeners[e], listeners['*']), function(l) {
           ee._emitting = e;
           if (l) l.apply(ee, args);
@@ -257,7 +256,7 @@
     EventEmitter.call(test);
 
     if (!f) throw new Error('Undefined test function');
-    if (!/function[^\(]*\(([^,\)]*)/.test(f.toString())) {
+    if (!/function[^\(]*\(([^,\)]*)/.test(f + '')) {
       throw new Error('"' + name + '" test: Invalid test function');
     }
 
@@ -410,16 +409,6 @@
       return sig(1/p, 4);
     }
 
-    function toString() {
-      if (this.time) {
-        return this.name + ', f = '  +
-          humanize(this.getHz()) + 'hz (' +
-          humanize(this.count) + '/' + humanize(this.time) + 'secs)';
-      } else {
-        return this.name + ', count = '  + humanize(this.count);
-      }
-    }
-
     // Set properties that are specific to this instance
     extend(test, {
       // Test name
@@ -435,9 +424,20 @@
       run: run,
       bestOf: bestOf,
       getHz: getHz,
-      reset: reset,
-      toString: toString
+      reset: reset
     });
+
+    // IE7 doesn't do 'toString' or 'toValue' in object enumerations, so set
+    // it explicitely here.
+    test.toString = function() {
+      if (this.time) {
+        return this.name + ', f = '  +
+        humanize(this.getHz()) + 'hz (' +
+        humanize(this.count) + '/' + humanize(this.time) + 'secs)';
+      } else {
+        return this.name + ', count = '  + humanize(this.count);
+      }
+    }
   };
 
   // Set static properties
@@ -486,9 +486,13 @@
     tests.push(test);
 
     // Run the next test if this one finished
-    test.on('*', function(test, arg) {
+    test.on('*', function() {
       // Forward test events to jslitmus listeners
-      jslitmus.emit(test._emitting, test, arg);
+      var args = Array.prototype.slice.call(arguments);
+      args.unshift(test._emitting);
+      jslitmus.emit.apply(jslitmus, args);
+
+      // Auto-run the next test
       if (test._emitting == 'complete') {
         currentTest = null;
         _nextTest();
