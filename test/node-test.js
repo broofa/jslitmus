@@ -6,8 +6,8 @@ if (typeof(jslitmus) == 'undefined') {
   var jslitmus = require('../jslitmus');
   var sys = require('sys');
 }
-// Shortcut to the util methods in jslitmus
-var util = jslitmus.util;
+// Use the unsupported log method
+var log = jslitmus.unsupported.log;
 
 // Create the tests (and put 'em in an array, so we can modify them)
 jslitmus.test('loop', function(count) {
@@ -28,12 +28,12 @@ jslitmus.Test.prototype.MIN_TIME = .5;
 
 jslitmus.on('*', function(test, a) {
   var e = this._emitting;
-  util.log('"' + e + '" ' + test);
+  log('"' + e + '" ' + test);
   //sys.log('Hz: ' + test.getHz() + ' -> ' + test.getHz(true));
   if (e == 'error') {
-    util.log('ERROR:\n' + sys.inspect(a));
+    log('ERROR:\n' + sys.inspect(a));
   } else if (e == 'all_complete') {
-    util.log(jslitmus.getGoogleChart());
+    log(jslitmus.getGoogleChart());
   }
 });
 

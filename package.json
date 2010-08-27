@@ -1,0 +1,12 @@
+{
+  "name"          : "jslitmus",
+  "description"   : "Cross-platform performance testing framework",
+  "url"           : "http://github.com/broofa/jslitmus",
+  "keywords"      : ["testing", "performance"],
+  "author"        : "Robert Kieffer <robert@broofa.com>",
+  "contributors"  : [],
+  "dependencies"  : [],
+  "lib"           : ".",
+  "main"          : "jslitmus.js",
+  "version"       : "0.1.0"
+}

@@ -47,12 +47,15 @@ I.e. Our test function runs at a "frequency" of 6,305 times per second.
         sys.log(test);
     });
 
+    // Run it!
+    jslitmus.runAll();
+
 ## jslitmus API
 In addition to the following, jslitmus also inherits the EventEmitter API, below.
 
 ### Properties
 * <b>Test</b> - Class used to represent and evaluate a test function.  See API docs below for more info.
-* <b>util</b> - Module containing various utility methods used by jslitmus.  These should not be treated as part of the formal API - they're exposed simply for convenience since they can be useful, especially if you're not including jquery, prototype, or some other library.
+* <b>unsupported.*</b> - Methods that jslitmus implements for internal use, but that are useful enough to warrant exposing publically.  But as the name says these will not be supported as part of the main jslitmus API.  Use at your own risk.
 * <b>platform</b> - Platform detection information.  Contains the following properties:
     * <b>name</b> - Common name (e.g. "Chrome", "IE", "Safari", "node")
     * <b>version</b> - Version string

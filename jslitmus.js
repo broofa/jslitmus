@@ -10,9 +10,8 @@
   // Platform detect
   //
 
-  // We don't really have to do this in a closure, but it helps keep the code
-  // organized.
   var platform = (function() {
+    // Platform info object
     var p = {
       name: null,
       version: null,
@@ -28,7 +27,7 @@
       var oses = 'Windows|iPhone OS|(?:Intel |PPC )?Mac OS X|Linux';
       p.os = new RegExp('((' + oses + ') +[^ \);]*)').test(ua) ? RegExp.$1.replace(/_/g, '.') : null;
 
-      // Detect browser
+      // Detect expected names
       p.name = /(Chrome|MSIE|Safari|Opera|Firefox|Minefield)/.test(ua) ? RegExp.$1 : null;
 
       // Detect version
@@ -45,6 +44,7 @@
       p.os = process.platform;
     }
 
+    // Set the description
     var d = [];
     if (p.name) d.push(p.name);
     if (p.version) d.push(' ' + p.version);
@@ -55,7 +55,7 @@
   })();
 
   //
-  // Context-specific initialization and method stubbing
+  // Context-specific initialization
   //
 
   var sys = null, querystring = null;
@@ -208,12 +208,6 @@
     return res;
   }
 
-
-  /**
-   * Basic platform/os/browser detection.  This is for providing a compact,
-   * human readable version of the current platform, not for code to switch
-   * behavior.
-   */
   // Node.js-inspired event emitter API, with some enhancements.
   function EventEmitter() {
     var ee = this;
@@ -610,10 +604,9 @@
     getGoogleChart: getGoogleChart
   });
 
-  // These are the convenience functions that jslitmus defines for its own use.
-  // We expose them here since you may find them useful.  Their use is neither
-  // encouraged or discouraged.
-  jslitmus.util = {
+  // Expose code goodness we've got here, since it's useful, but do so in a way
+  // that doesn't commit us to supporting it in future versions.
+  jslitmus.unsupported = {
     nilf: nilf,
     log: log,
     extend: extend,
